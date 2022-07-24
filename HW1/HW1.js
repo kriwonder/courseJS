@@ -36,35 +36,32 @@ console.log(map2);
 // );
 // console.log(sumWithInitial);
 
-// Array.prototype.customReduce = function(callbackFn, initialValue = false) {
-//     let previousValue,
-//         i;
+Array.prototype.customReduce = function(callbackFn, initialValue = false) {
+    let previousValue,
+        i;
 
-//     if (initialValue !== false) {
-//         previousValue = initialValue;
-//         i = 0;
-//     } else {
-//         previousValue = this[0];
-//         i = 1;
-//     }
+    if (initialValue !== false) {
+        previousValue = initialValue;
+        i = 0;
+    } else {
+        previousValue = this[0];
+        i = 1;
+    }
     
-//     for(; i < this.length; ++i) {
-//         previousValue = callbackFn(previousValue, this[i], i, this);
-//     }
+    for(; i < this.length; ++i) {
+        previousValue = callbackFn(previousValue, this[i], i, this);
+    }
 
-//     return previousValue;
-// }
-// const sumWithInitial2 = array1.customReduce(
-//   (previousValue, currentValue, index, array) => {
-//     // console.log(previousValue, currentValue, index, array);
-//     return previousValue + currentValue
-//   },
-//   initialValue
-// );
-// console.log(sumWithInitial2);
-
-
-
+    return previousValue;
+}
+const sumWithInitial2 = array1.customReduce(
+  (previousValue, currentValue, index, array) => {
+    // console.log(previousValue, currentValue, index, array);
+    return previousValue + currentValue
+  },
+  initialValue
+);
+console.log(sumWithInitial2);
 
 
 // ======= FILTER =======
@@ -72,37 +69,34 @@ console.log(map2);
 // const result = words.filter(word => word.length > 6);
 // console.log(result);
 
+Array.prototype.customFilter = function(callbackFn, thisArg) {
+    let newArr = [];
 
-// Array.prototype.customFilter = function(callbackFn, thisArg) {
-//     let newArr = [];
-
-//     for(let i = 0; i < this.length; ++i) {
-//         const result = callbackFn.bind(thisArg)(this[i], i, this)
+    for(let i = 0; i < this.length; ++i) {
+        const result = callbackFn.bind(thisArg)(this[i], i, this)
         
-//         if (result) {
-//             newArr.push(this[i]);
-//         }
-//     }
+        if (result) {
+            newArr.push(this[i]);
+        }
+    }
 
-//     return newArr;
-// }
+    return newArr;
+}
 
-// const result2 = words.customFilter(word => word.length > 6);
-// console.log(result2);
-
-
-
+const result2 = words.customFilter(word => word.length > 6);
+console.log(result2);
 
 // ======= FOREACH =======
 // const array1 = ['a', 'b', 'c'];
 // array1.forEach(element => console.log(element));
 
-// Array.prototype.customForEach = function(callbackFn, thisArg) {
-//     for(let i = 0; i < this.length; ++i) {
-//         callbackFn.bind(thisArg)(this[i], i, this)
-//     }
-// }
-// array1.customForEach(element => console.log(element));
+Array.prototype.customForEach = function(callbackFn, thisArg) {
+    let resultForEach;
+    for(let i = 0; i < this.length; ++i) {
+        resultForEach = callbackFn.bind(thisArg)(this[i], i, this)
+    }
+}
+array1.customForEach(element => console.log(element));
 
 
 
@@ -140,16 +134,41 @@ const subjects = {
     },
     chemistry: {
         students: 100,
-        : 3
+        teachers: 3
     }
 }
 
 //task1: Создать строку из названий предметов написаных через запятую
-let stringOfSubjects = Object.keys(subjects).toString();
-console.log(stringOfSubjects)
-
 //task2: Посчитать общее количeство студентов и учителей на всех предметах
 //task3: Получить среднее количество студентов на всех пердметах
 //task4: Создать массив из объектов предметов
-//task5:
+//task5: Получить массив из предметов и отсортировать по количеству преподавателей на факультете от большего к меньшему
+
+array1.customForEach(element => console.log(element));
+
+let arrayOfSubjects = Object.entries(subjects);
+
+let lessonStr = ''
+let sumStudents = 0;
+let sumTeachers = 0;
+let studentsObj = [];
+let sortOfSubjects = [];
+
+arrayOfSubjects.customForEach(([key, value]) => {
+    lessonStr +=  key.toString()+','
+    sumStudents += value.students;
+    sumTeachers += value.teachers;
+    sumOfAll = sumStudents + sumTeachers;
+    studentsObj = Array.from(arrayOfSubjects);
+    studentsAverage = sumStudents / studentsObj.length;
+    sortOfSubjects.push(value);
+    sortOfSubjects.sort((x, y) => y.teachers - x.teachers)
+});
+
+console.log(lessonStr)
+console.log(sumOfAll)
+console.log(studentsAverage)
+console.log(studentsObj)
+console.log(sortOfSubjects)
+
 
